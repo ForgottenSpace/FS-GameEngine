@@ -47,6 +47,7 @@ public class FlightAppState extends AbstractAppState {
         for (Entity movingEntity : resultSet) {
             updateMovingEntity(movingEntity, tpf);
         }
+        updateProcessor.finalizeUpdates();
     }
 
     private void updateMovingEntity(Entity movingEntity, float tpf) {

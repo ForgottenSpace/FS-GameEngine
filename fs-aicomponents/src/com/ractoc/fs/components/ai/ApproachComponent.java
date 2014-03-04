@@ -175,10 +175,8 @@ public class ApproachComponent extends AiComponent {
     private void moveTowardsControlledEntity(LocationComponent playerLocationComponent, LocationComponent controlledLocationComponent) {
         loadMovementComponent();
         if (determineBrakingDistance(playerLocationComponent, controlledLocationComponent) > range) {
-            System.out.println("forward");
             moveForward();
         } else {
-            System.out.println("brake");
             stopMoving();
         }
     }
@@ -187,21 +185,14 @@ public class ApproachComponent extends AiComponent {
         float distance = shipLocationComponent.getTranslation().distance(controlledLocationComponent.getTranslation());
         float distanceTraveled = 0f;
         if (entityHasSpeedComponent()) {
-            System.out.println("calculating brake distance");
             SpeedComponent controlledSpeedComponent = Entities.getInstance().loadComponentForEntity(shipEntity, SpeedComponent.class);
             CanMoveComponent controlledCanMoveComponent = Entities.getInstance().loadComponentForEntity(shipEntity, CanMoveComponent.class);
             float startingVelocity = controlledSpeedComponent.getMoveSpeed();
-            System.out.println("startingVelocity = " + startingVelocity);
             float deceleration = controlledCanMoveComponent.getBrake();
-            System.out.println("deceleration = " + deceleration);
             float averageVelocity = startingVelocity / 2;
-            System.out.println("averageVelocity = " + averageVelocity);
             float brakingTime = startingVelocity / deceleration;
-            System.out.println("brakingTime = " + brakingTime);
             distanceTraveled = averageVelocity * brakingTime;
         }
-        System.out.println("distance = " + distance);
-        System.out.println("distanceTraveled = " + distanceTraveled);
         return distance - distanceTraveled;
     }
 }
