@@ -21,8 +21,6 @@ public class TemplateLoader implements AssetLoader {
         }
         InputStream is = assetInfo.openStream();
         EntityTemplate tpl = parser.parse(is);
-        System.out.println(assetInfo.toString());
-        System.out.println(tpl.getName());
         is.close();
         return tpl;
     }

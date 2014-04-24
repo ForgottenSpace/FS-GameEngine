@@ -24,7 +24,6 @@ public class Entities {
             noComponentTypeSupplied();
         } else {
             for (Class<? extends EntityComponent> componentType : componentTypes) {
-                System.out.println(componentType);
                 componentStorages.registerComponentTypeWithComponentStorage(componentType, componentStorage);
             }
         }

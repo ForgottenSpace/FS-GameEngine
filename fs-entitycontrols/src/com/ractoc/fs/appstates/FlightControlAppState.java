@@ -20,7 +20,7 @@ import com.ractoc.fs.es.EntityException;
 import com.ractoc.fs.es.EntityResultSet;
 import java.util.List;
 
-public class FlightControlAppState extends AbstractAppState implements ActionListener, AnalogListener {
+public class FlightControlAppState extends AbstractAppState implements ActionListener {
 
     private EntityResultSet resultSet;
     private Entity controlledEntity;
@@ -111,14 +111,12 @@ public class FlightControlAppState extends AbstractAppState implements ActionLis
     public final void onAction(final String name,
             final boolean isPressed,
             final float tpf) {
-        if (isEnabled() && !isPressed) {
-            loadMovementComponent();
-            if (isAnyMovementButton(name)) {
-                stopMoving();
-            } else if (isAnyStrafeButton(name)) {
-                stopStrafing();
-            } else if (isAnyRotateButton(name)) {
-                stopRotating();
+        if (isEnabled()) {
+                loadMovementComponent();
+            if (isEnabled() && !isPressed) {
+                stopFlying(name);
+            } else if (isEnabled() && isPressed) {
+                fly(name);
             }
         }
     }
@@ -166,14 +164,6 @@ public class FlightControlAppState extends AbstractAppState implements ActionLis
                 movementComponent.isStrafeRight(),
                 false,
                 false));
-    }
-
-    @Override
-    public void onAnalog(String name, float value, float tpf) {
-        if (isEnabled()) {
-            loadMovementComponent();
-            fly(name);
-        }
     }
 
     private void fly(String name) {
@@ -268,5 +258,15 @@ public class FlightControlAppState extends AbstractAppState implements ActionLis
         movementComponent = new MovementComponent(false, false, false, false, false, false);
         Entities.getInstance().addComponentsToEntity(controlledEntity, movementComponent);
         Entities.getInstance().addComponentsToEntity(controlledEntity, new SpeedComponent(0F, 0F, 0F));
+    }
+
+    private void stopFlying(final String name) {
+        if (isAnyMovementButton(name)) {
+            stopMoving();
+        } else if (isAnyStrafeButton(name)) {
+            stopStrafing();
+        } else if (isAnyRotateButton(name)) {
+            stopRotating();
+        }
     }
 }
