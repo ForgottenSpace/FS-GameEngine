@@ -1,0 +1,5 @@
+template {
+	name=Basic Ship Templat
+	components {
+		component {
+			class=com.ractoc.fs.components.es.RenderComponent
