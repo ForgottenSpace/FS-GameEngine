@@ -24,14 +24,14 @@ public class LocationComponent implements EntityComponent {
     }
 
     public Vector3f getTranslation() {
-        return translation;
+        return translation.clone();
     }
 
     public Quaternion getRotation() {
-        return rotation;
+        return rotation.clone();
     }
 
     public Vector3f getScale() {
-        return scale;
+        return scale.clone();
     }
 }

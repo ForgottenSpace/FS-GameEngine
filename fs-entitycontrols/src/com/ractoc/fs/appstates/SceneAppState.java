@@ -32,6 +32,8 @@ public class SceneAppState extends AbstractAppState {
     private SimpleApplication application;
     private Node sceneNode;
     private Node rootNode;
+    
+    private boolean playerCentric = true;
 
     public SceneAppState(String sceneFile) {
         this.sceneFile = sceneFile;
@@ -91,7 +93,7 @@ public class SceneAppState extends AbstractAppState {
         super.update(tpf);
         determineControlledEntity();
         determineRenderableEntities();
-        makePlayerCentric();
+        moveEntities();
     }
 
     private void determineControlledEntity() throws EntityException {
@@ -144,14 +146,17 @@ public class SceneAppState extends AbstractAppState {
         }
     }
 
-    private void makePlayerCentric() {
+    private void moveEntities() {
         LocationComponent controlledWorldLocation = Entities.getInstance().loadComponentForEntity(controlledEntity, LocationComponent.class);
 
         for (Entity entity : renderableResultSet) {
             LocationComponent entityWorldLocation = Entities.getInstance().loadComponentForEntity(entity, LocationComponent.class);
             Spatial modelSpatial = sceneNode.getChild(NODE_ENTITY + entity.getId());
-            Vector3f entityNodeLocation =
-                    entityWorldLocation.getTranslation().subtract(controlledWorldLocation.getTranslation());
+            Vector3f entityNodeLocation = entityWorldLocation.getTranslation();
+            if (isPlayerCentric()) {
+                entityNodeLocation = entityNodeLocation.subtract(controlledWorldLocation.getTranslation());
+            }
+            
             modelSpatial.setLocalTranslation(entityNodeLocation);
             modelSpatial.setLocalRotation(entityWorldLocation.getRotation());
         }
@@ -189,5 +194,13 @@ public class SceneAppState extends AbstractAppState {
             controlledEntity = updateProcessor.getAddedEntities().get(0);
             setEnabled(true);
         }
+    }
+
+    public boolean isPlayerCentric() {
+        return playerCentric;
+    }
+
+    public void setPlayerCentric(boolean playerCentric) {
+        this.playerCentric = playerCentric;
     }
 }

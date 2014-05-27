@@ -1,11 +1,12 @@
 package com.ractoc.fs.appstates;
 
 import com.jme3.app.Application;
+import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.input.InputManager;
 import com.jme3.input.controls.ActionListener;
-import com.jme3.input.controls.AnalogListener;
+import com.jme3.math.Vector3f;
 import com.ractoc.fs.components.es.CanMoveComponent;
 import com.ractoc.fs.components.es.ControlledComponent;
 import com.ractoc.fs.components.es.Controls;
