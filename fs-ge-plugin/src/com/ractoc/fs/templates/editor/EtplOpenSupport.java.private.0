@@ -1,7 +1,6 @@
 package com.ractoc.fs.templates.editor;
 
 import com.jme3.gde.core.assets.AssetData;
-import com.ractoc.fs.parsers.entitytemplate.EntityTemplate;
 import com.ractoc.fs.templates.editor.filetype.EtplDataObject;
 import org.openide.cookies.*;
 import org.openide.loaders.OpenSupport;
@@ -12,7 +11,7 @@ public class EtplOpenSupport extends OpenSupport implements OpenCookie, CloseCoo
 
     private EtplDataObject dataObject;
     private AssetData assetData;
-    private EtplTopComponent tc;
+    private EtplTopComponent topComponent;
 
     public EtplOpenSupport(EtplDataObject etpl) {
         super(etpl.getPrimaryEntry());
@@ -24,27 +23,15 @@ public class EtplOpenSupport extends OpenSupport implements OpenCookie, CloseCoo
     @Override
     public void open() {
         super.open();
-        loadEntityTemplateIntoDataObject();
-    }
-
-    private void loadEntityTemplateIntoDataObject() {
         assetData.loadAsset();
     }
 
     @Override
     protected CloneableTopComponent createCloneableTopComponent() {
-        if (hasNoTopComponent()) {
-            createNewTopComponent();
+        if (topComponent == null) {
+            topComponent = new EtplTopComponent();
+            topComponent.setEtplDataObject(dataObject);
         }
-        return tc;
-    }
-
-    private boolean hasNoTopComponent() {
-        return tc == null;
-    }
-
-    private void createNewTopComponent() {
-        tc = new EtplTopComponent();
-        tc.setEtplDataObject(dataObject);
+        return topComponent;
     }
 }
