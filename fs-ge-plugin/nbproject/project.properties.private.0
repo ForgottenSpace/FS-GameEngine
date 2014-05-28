@@ -1,6 +1,0 @@
-file.reference.fs-entitysystem.jar=release/modules/ext/fs-entitysystem.jar
-file.reference.fs-parsers.jar=release/modules/ext/fs-parsers.jar
-file.reference.javassist-3.16.1-GA.jar=release/modules/ext/javassist-3.16.1-GA.jar
-file.reference.scannotation-1.0.2.jar=release/modules/ext/scannotation-1.0.2.jar
-javac.source=1.6
-javac.compilerargs=-Xlint -Xlint:-serial
