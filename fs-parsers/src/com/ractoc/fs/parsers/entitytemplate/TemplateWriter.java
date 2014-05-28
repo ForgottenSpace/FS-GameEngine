@@ -29,7 +29,6 @@ public class TemplateWriter {
             writer = new BufferedWriter(fileWriter);
             writeTemplate();
         } catch (IOException ex) {
-            ex.printStackTrace();
             throw new ParserException("Unable to write " + templateFile, ex);
         } finally {
             try {
