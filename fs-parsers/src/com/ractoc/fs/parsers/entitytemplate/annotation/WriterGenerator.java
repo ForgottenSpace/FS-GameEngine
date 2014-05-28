@@ -48,7 +48,6 @@ public class WriterGenerator {
     private void generatePullPropertiesFromComponent() throws IOException {
         writer.write("\t@Override\n");
         writer.write("\tprotected void pullPropertiesFromComponent(EntityComponent component) {\n");
-        writer.write("\t\t" + componentClassName + " actComponent = (" + componentClassName + ") component;\n");
         for (PropertyType property : properties) {
             createGetPropertyMethod(property);
         }
@@ -62,12 +61,12 @@ public class WriterGenerator {
 
     private void createGetPropertyMethod(PropertyType property) throws IOException {
         String getMethod = convertPropertyToGetMethod(property.getFieldName());
-        writer.write("\t\tproperties.put(\"" + property.getFieldName() + "\", \"\" + actComponent." + getMethod + ");\n");
+        writer.write("\t\tproperties.put(\"" + property.getFieldName() + "\", extractValueWithMethod(component, \"" + getMethod + "\"));\n");
     }
 
     private String convertPropertyToGetMethod(String property) {
         String firstCharacter = property.substring(0, 1);
         String restOfProperty = property.substring(1);
-        return "get" + firstCharacter.toUpperCase() + restOfProperty + "()";
+        return "get" + firstCharacter.toUpperCase() + restOfProperty;
     }
 }
