@@ -1,7 +1,9 @@
 package com.ractoc.fs.es;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class Entities {
@@ -10,6 +12,7 @@ public class Entities {
     private ComponentStorages componentStorages;
     private List<EntityResultSet> resultSets = new ArrayList<>();
     private static Entities instance = new Entities();
+    private Map<Long, Entity> currentEntities = new HashMap<>();
 
     private Entities() {
         componentStorages = new ComponentStorages();
@@ -18,7 +21,7 @@ public class Entities {
     public static Entities getInstance() {
         return instance;
     }
-    
+
     public void registerComponentTypesWithComponentStorage(ComponentStorage componentStorage, Class<? extends EntityComponent>... componentTypes) {
         if (IsEmpty.componentTypes(componentTypes)) {
             noComponentTypeSupplied();
@@ -28,7 +31,7 @@ public class Entities {
             }
         }
     }
-    
+
     public void unregisterComponentTypesWithComponentStorage(Class<? extends EntityComponent>... componentTypes) {
         if (IsEmpty.componentTypes(componentTypes)) {
             noComponentTypeSupplied();
@@ -45,6 +48,7 @@ public class Entities {
             noComponentSupplied();
         } else {
             entity = createEntityAddComponents(components);
+            currentEntities.put(entity.getId(), entity);
         }
         return entity;
     }
@@ -52,7 +56,7 @@ public class Entities {
     private Entity createEntityAddComponents(EntityComponent[] components) {
         Long entityId = getNextEntityId();
         Entity entity = createEntity(entityId, components);
-        for(EntityComponent component : components) {
+        for (EntityComponent component : components) {
             componentStorages.storeComponentForEntity(entityId, component);
         }
         return entity;
@@ -100,6 +104,7 @@ public class Entities {
     public void destroyEntity(Entity entity) {
         removeComponentsFromEntity(entity, entity.getComponentTypes().toArray(new Class[]{}));
         removeFromResultSets(entity);
+        currentEntities.remove(entity.getId());
     }
 
     private void removeComponentsFromEntity(Entity entity, Class<? extends EntityComponent>... componentTypes) {
@@ -126,7 +131,7 @@ public class Entities {
             resultSet.change(entity);
         }
     }
-    
+
     public <T extends EntityComponent> T loadComponentForEntity(Entity entity, Class<T> componentType) {
         return componentStorages.loadComponentForEntity(entity.getId(), componentType);
     }
@@ -144,7 +149,7 @@ public class Entities {
             throw new EntityException("ResultSet already closed.");
         }
     }
-    
+
     protected void closeAllResultSets() {
         resultSets.clear();
     }
@@ -163,5 +168,9 @@ public class Entities {
             componentTypes[index] = components[index].getClass();
         }
         return componentTypes;
+    }
+
+    public Entity getEntityById(Long entityId) {
+        return currentEntities.get(entityId);
     }
 }

@@ -40,25 +40,29 @@ public class ApproachComponent extends AiComponent {
 
     @Override
     public String[] getMandatoryExits() {
-        return new String[]{"arived"};
+        return new String[]{"destroyed"};
     }
 
     @Override
     public void initialise(Entity entity, AssetManager assetManager, AiScript aiScript) {
         super.initialise(entity, assetManager, aiScript);
         range = Float.valueOf((String) getProp("range"));
-        shipEntity = (Entity) getProp("shipEntity");
     }
 
     @Override
     public void update(float tpf) {
         super.update(tpf);
         determineControlledEntity();
-        LocationComponent shipLocationComponent = Entities.getInstance().loadComponentForEntity(shipEntity, LocationComponent.class);
-        if (controlledEntity != null && shipLocationComponent != null) {
-            LocationComponent controlledLocationComponent = Entities.getInstance().loadComponentForEntity(controlledEntity, LocationComponent.class);
-            turnTowardsControlledEntity(shipLocationComponent, controlledLocationComponent);
-            moveTowardsControlledEntity(shipLocationComponent, controlledLocationComponent);
+        shipEntity = Entities.getInstance().getEntityById((Long) getProp("shipEntity"));
+        if (shipEntity != null) {
+            LocationComponent shipLocationComponent = Entities.getInstance().loadComponentForEntity(shipEntity, LocationComponent.class);
+            if (controlledEntity != null && shipLocationComponent != null) {
+                LocationComponent controlledLocationComponent = Entities.getInstance().loadComponentForEntity(controlledEntity, LocationComponent.class);
+                turnTowardsControlledEntity(shipLocationComponent, controlledLocationComponent);
+                moveTowardsControlledEntity(shipLocationComponent, controlledLocationComponent);
+            }
+        } else {
+            aiScript.setCurrentComponent((String) exits.get("destroyed"));
         }
     }
 

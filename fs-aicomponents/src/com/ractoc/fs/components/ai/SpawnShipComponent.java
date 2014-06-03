@@ -33,7 +33,7 @@ public class SpawnShipComponent extends AiComponent {
         shipEntity = Entities.getInstance().createEntity(template.getComponentsAsArray());
         LocationComponent lc = Entities.getInstance().loadComponentForEntity(entity, LocationComponent.class);
         Entities.getInstance().addComponentsToEntity(shipEntity, lc);
-        aiScript.setGlobalProp("shipEntity", shipEntity);
+        aiScript.setGlobalProp("shipEntity", shipEntity.getId());
         aiScript.setCurrentComponent((String) exits.get("spawned"));
     }
 }

@@ -38,7 +38,6 @@ public class SceneAppState extends AbstractAppState {
     private Node sceneNode;
     private Node rootNode;
     private boolean playerCentric = true;
-    private Map<Long, Entity> renderedEntities = new HashMap<>();
 
     public SceneAppState(String sceneFile) {
         this.sceneFile = sceneFile;
@@ -142,7 +141,6 @@ public class SceneAppState extends AbstractAppState {
         for (Entity entity : entities) {
             Spatial modelSpatial = createEntitySpatialForEntity(entity);
             sceneNode.attachChild(modelSpatial);
-            renderedEntities.put(entity.getId(), entity);
         }
     }
 
@@ -150,7 +148,6 @@ public class SceneAppState extends AbstractAppState {
         List<Entity> entities = updateProcessor.getRemovedEntities();
         for (Entity entity : entities) {
             sceneNode.detachChildNamed(NODE_ENTITY + entity.getId());
-            renderedEntities.remove(entity.getId());
         }
     }
 
@@ -218,7 +215,7 @@ public class SceneAppState extends AbstractAppState {
         if (damageSpatial != null) {
             for (Spatial entitySpatial : sceneNode.getChildren()) {
                 if (entitySpatial != damageSpatial && damageSpatial.collideWith(entitySpatial.getWorldBound(), collisionResults) > 0) {
-                    return renderedEntities.get((Long) entitySpatial.getUserData("entity"));
+                    return Entities.getInstance().getEntityById((Long) entitySpatial.getUserData("entity"));
                 }
             }
         }
