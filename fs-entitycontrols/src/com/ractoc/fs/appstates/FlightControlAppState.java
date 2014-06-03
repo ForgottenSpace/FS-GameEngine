@@ -1,19 +1,11 @@
 package com.ractoc.fs.appstates;
 
 import com.jme3.app.Application;
-import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.input.InputManager;
 import com.jme3.input.controls.ActionListener;
-import com.jme3.math.Vector3f;
-import com.ractoc.fs.components.es.CanMoveComponent;
-import com.ractoc.fs.components.es.ControlledComponent;
-import com.ractoc.fs.components.es.Controls;
-import com.ractoc.fs.components.es.LocationComponent;
-import com.ractoc.fs.components.es.MovementComponent;
-import com.ractoc.fs.components.es.RenderComponent;
-import com.ractoc.fs.components.es.SpeedComponent;
+import com.ractoc.fs.components.es.*;
 import com.ractoc.fs.es.ComponentTypeCriteria;
 import com.ractoc.fs.es.Entities;
 import com.ractoc.fs.es.Entity;
@@ -45,12 +37,13 @@ public class FlightControlAppState extends AbstractAppState implements ActionLis
 
     private void setupControlsWithInputManager(InputManager inputManager) {
         inputManager.addListener(this,
-                Controls.MOVE_FORWARD.name(),
-                Controls.MOVE_BACKWARDS.name(),
-                Controls.STRAFE_RIGHT.name(),
-                Controls.STRAFE_LEFT.name(),
-                Controls.ROTATE_LEFT.name(),
-                Controls.ROTATE_RIGHT.name());
+                                 Controls.MOVE_FORWARD.name(),
+                                 Controls.MOVE_BACKWARDS.name(),
+                                 Controls.STRAFE_RIGHT.name(),
+                                 Controls.STRAFE_LEFT.name(),
+                                 Controls.ROTATE_LEFT.name(),
+                                 Controls.ROTATE_RIGHT.name(),
+                                 Controls.SHOOT_MAIN.name());
     }
 
     @Override
@@ -110,14 +103,14 @@ public class FlightControlAppState extends AbstractAppState implements ActionLis
 
     @Override
     public final void onAction(final String name,
-            final boolean isPressed,
-            final float tpf) {
+                               final boolean isPressed,
+                               final float tpf) {
         if (isEnabled()) {
-                loadMovementComponent();
+            loadMovementComponent();
             if (isEnabled() && !isPressed) {
-                stopFlying(name);
+                stop(name);
             } else if (isEnabled() && isPressed) {
-                fly(name);
+                start(name);
             }
         }
     }
@@ -167,7 +160,7 @@ public class FlightControlAppState extends AbstractAppState implements ActionLis
                 false));
     }
 
-    private void fly(String name) {
+    private void start(String name) {
         if (name.equals(Controls.MOVE_FORWARD.getName())) {
             moveForward();
         } else if (name.equals(Controls.MOVE_BACKWARDS.getName())) {
@@ -180,6 +173,8 @@ public class FlightControlAppState extends AbstractAppState implements ActionLis
             rotateLeft();
         } else if (name.equals(Controls.ROTATE_RIGHT.getName())) {
             rotateRight();
+        } else if (name.equals(Controls.SHOOT_MAIN.getName())) {
+            shootMain();
         }
     }
 
@@ -261,13 +256,23 @@ public class FlightControlAppState extends AbstractAppState implements ActionLis
         Entities.getInstance().addComponentsToEntity(controlledEntity, new SpeedComponent(0F, 0F, 0F));
     }
 
-    private void stopFlying(final String name) {
+    private void stop(final String name) {
         if (isAnyMovementButton(name)) {
             stopMoving();
         } else if (isAnyStrafeButton(name)) {
             stopStrafing();
         } else if (isAnyRotateButton(name)) {
             stopRotating();
+        } else if (name.equals(Controls.SHOOT_MAIN.getName())) {
+            stopShooting();
         }
+    }
+
+    private void shootMain() {
+        Entities.getInstance().addComponentsToEntity(controlledEntity, new ShootMainComponent(0f));
+    }
+
+    private void stopShooting() {
+        Entities.getInstance().removeComponentsFromEntity(controlledEntity, new ShootMainComponent(0f));
     }
 }

@@ -4,6 +4,9 @@ import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
+import com.jme3.collision.Collidable;
+import com.jme3.collision.CollisionResults;
+import com.jme3.collision.UnsupportedCollisionException;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -18,7 +21,9 @@ import com.ractoc.fs.es.EntityException;
 import com.ractoc.fs.es.EntityResultSet;
 import com.ractoc.fs.es.EntityResultSet.UpdateProcessor;
 import com.ractoc.fs.loaders.SceneLoader;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SceneAppState extends AbstractAppState {
 
@@ -32,8 +37,8 @@ public class SceneAppState extends AbstractAppState {
     private SimpleApplication application;
     private Node sceneNode;
     private Node rootNode;
-    
     private boolean playerCentric = true;
+    private Map<Long, Entity> renderedEntities = new HashMap<>();
 
     public SceneAppState(String sceneFile) {
         this.sceneFile = sceneFile;
@@ -124,6 +129,7 @@ public class SceneAppState extends AbstractAppState {
         RenderComponent rc = Entities.getInstance().loadComponentForEntity(entity, RenderComponent.class);
         LocationComponent lc = Entities.getInstance().loadComponentForEntity(entity, LocationComponent.class);
         Spatial modelSpatial = application.getAssetManager().loadModel(rc.getJ3o());
+        modelSpatial.setUserData("entity", entity.getId());
         modelSpatial.setName(NODE_ENTITY + entity.getId());
         modelSpatial.setLocalTranslation(lc.getTranslation());
         modelSpatial.setLocalRotation(lc.getRotation());
@@ -136,6 +142,7 @@ public class SceneAppState extends AbstractAppState {
         for (Entity entity : entities) {
             Spatial modelSpatial = createEntitySpatialForEntity(entity);
             sceneNode.attachChild(modelSpatial);
+            renderedEntities.put(entity.getId(), entity);
         }
     }
 
@@ -143,6 +150,7 @@ public class SceneAppState extends AbstractAppState {
         List<Entity> entities = updateProcessor.getRemovedEntities();
         for (Entity entity : entities) {
             sceneNode.detachChildNamed(NODE_ENTITY + entity.getId());
+            renderedEntities.remove(entity.getId());
         }
     }
 
@@ -156,7 +164,7 @@ public class SceneAppState extends AbstractAppState {
             if (isPlayerCentric()) {
                 entityNodeLocation = entityNodeLocation.subtract(controlledWorldLocation.getTranslation());
             }
-            
+
             modelSpatial.setLocalTranslation(entityNodeLocation);
             modelSpatial.setLocalRotation(entityWorldLocation.getRotation());
         }
@@ -202,5 +210,18 @@ public class SceneAppState extends AbstractAppState {
 
     public void setPlayerCentric(boolean playerCentric) {
         this.playerCentric = playerCentric;
+    }
+
+    public Entity getCollidingEntity(Entity damageEntity) {
+        Spatial damageSpatial = sceneNode.getChild(NODE_ENTITY + damageEntity.getId());
+        CollisionResults collisionResults = new CollisionResults();
+        if (damageSpatial != null) {
+            for (Spatial entitySpatial : sceneNode.getChildren()) {
+                if (entitySpatial != damageSpatial && damageSpatial.collideWith(entitySpatial.getWorldBound(), collisionResults) > 0) {
+                    return renderedEntities.get((Long) entitySpatial.getUserData("entity"));
+                }
+            }
+        }
+        return null;
     }
 }
