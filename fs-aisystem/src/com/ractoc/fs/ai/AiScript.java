@@ -15,9 +15,16 @@ public class AiScript {
     private AiComponent currentComponent;
     private AssetManager assetManager;
     private Map<String, Object> globalProps = new HashMap<>();
+    private final boolean subScript;
+    private boolean finished;
 
     public AiScript(String name) {
+        this(name, false);
+    }
+
+    public AiScript(String name, boolean subScript) {
         this.name = name;
+        this.subScript = subScript;
     }
 
     public void addComponent(AiComponent component) {
@@ -52,7 +59,11 @@ public class AiScript {
 
     public void setCurrentComponent(String componentName) {
         if (componentName.equalsIgnoreCase("exit")) {
-            Entities.getInstance().destroyEntity(entity);
+            if (subScript) {
+                finished = true;
+            } else {
+                Entities.getInstance().destroyEntity(entity);
+            }
         } else {
             currentComponent = components.get(componentName);
             currentComponent.initialise(getEntity(), assetManager, this);
@@ -67,7 +78,11 @@ public class AiScript {
         return globalProps.get(key);
     }
 
-    Map<String, Object> getGlobalProps() {
+    public Map<String, Object> getGlobalProps() {
         return globalProps;
+    }
+
+    public boolean isFinished() {
+        return finished;
     }
 }

@@ -96,8 +96,12 @@ public class SceneAppState extends AbstractAppState {
     public void update(float tpf) {
         super.update(tpf);
         determineControlledEntity();
-        determineRenderableEntities();
-        moveEntities();
+        if (controlledEntity == null) {
+            application.stop();
+        } else {
+            determineRenderableEntities();
+            moveEntities();
+        }
     }
 
     private void determineControlledEntity() throws EntityException {
