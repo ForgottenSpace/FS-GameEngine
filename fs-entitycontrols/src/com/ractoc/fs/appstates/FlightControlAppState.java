@@ -76,7 +76,8 @@ public class FlightControlAppState extends AbstractAppState implements ActionLis
     }
 
     private void updateRemovedEntity(List<Entity> entities) throws EntityException {
-        if (controlledEntity != null) {
+        System.out.println("removing controlled entity");
+        if (controlledEntity == null) {
             throw new EntityException("No entity to remove.");
         } else if (controlledEntity.equals(entities.get(0))) {
             controlledEntity = null;

@@ -15,8 +15,8 @@ public class AiScript {
     private AiComponent currentComponent;
     private AssetManager assetManager;
     private Map<String, Object> globalProps = new HashMap<>();
-    private final boolean subScript;
-    private boolean finished;
+    private boolean subScript;
+    private boolean finished = false;
 
     public AiScript(String name) {
         this(name, false);
@@ -50,6 +50,7 @@ public class AiScript {
     public void initialise(Entity entity, AssetManager assetManager) {
         this.entity = entity;
         this.assetManager = assetManager;
+        this.finished = false;
         setCurrentComponent(entry);
     }
 
@@ -84,5 +85,13 @@ public class AiScript {
 
     public boolean isFinished() {
         return finished;
+    }
+
+    public void setSubScript(boolean subScript) {
+        this.subScript = subScript;
+    }
+
+    public String getName() {
+        return name;
     }
 }

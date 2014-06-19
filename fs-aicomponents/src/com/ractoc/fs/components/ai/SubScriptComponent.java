@@ -34,6 +34,7 @@ public class SubScriptComponent extends AiComponent {
         for (String scriptName : scriptNameList) {
             AiScript script = (AiScript) assetManager.loadAsset(scriptName.trim());
             script.initialise(entity, assetManager);
+            script.setSubScript(true);
             script.getGlobalProps().putAll(aiScript.getGlobalProps());
             scripts.add(script);
         }
@@ -42,14 +43,12 @@ public class SubScriptComponent extends AiComponent {
 
     @Override
     public void update(float tpf) {
-        boolean allFinished = true;
+        boolean stillRunning = true;
         for (AiScript script : scripts) {
-            if (!script.isFinished()) {
-                allFinished = false;
-                script.update(tpf);
-            }
+            script.update(tpf);
+            stillRunning = !script.isFinished();
         }
-        if (allFinished) {
+        if (!stillRunning) {
             aiScript.setCurrentComponent((String) exits.get("exit"));
         }
     }

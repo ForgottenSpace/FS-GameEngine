@@ -43,6 +43,7 @@ public class ApproachComponent extends AiComponent {
     public void initialise(Entity entity, AssetManager assetManager, AiScript aiScript) {
         super.initialise(entity, assetManager, aiScript);
         range = Float.valueOf((String) getProp("range"));
+        System.out.println("initialized ApproachComponent with range " + range);
     }
 
     @Override
