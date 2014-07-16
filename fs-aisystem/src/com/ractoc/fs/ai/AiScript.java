@@ -1,14 +1,20 @@
 package com.ractoc.fs.ai;
 
 import com.jme3.asset.AssetManager;
+import com.jme3.export.InputCapsule;
+import com.jme3.export.JmeExporter;
+import com.jme3.export.JmeImporter;
+import com.jme3.export.OutputCapsule;
+import com.jme3.export.Savable;
 import com.ractoc.fs.es.Entities;
 import com.ractoc.fs.es.Entity;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AiScript {
+public class AiScript implements Savable {
 
-    private final String name;
+    private String name;
     private String entry;
     private Entity entity;
     private final Map<String, AiComponent> components = new HashMap<>();
@@ -93,5 +99,17 @@ public class AiScript {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public void write(JmeExporter ex) throws IOException {
+        OutputCapsule capsule = ex.getCapsule(this);
+        capsule.write(name, "name", null);
+    }
+
+    @Override
+    public void read(JmeImporter im) throws IOException {
+        InputCapsule capsule = im.getCapsule(this);
+        name = capsule.readString("name", null);
     }
 }
