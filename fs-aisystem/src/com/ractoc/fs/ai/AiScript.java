@@ -9,7 +9,9 @@ import com.jme3.export.Savable;
 import com.ractoc.fs.es.Entities;
 import com.ractoc.fs.es.Entity;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class AiScript implements Savable {
@@ -39,6 +41,10 @@ public class AiScript implements Savable {
 
     public AiComponent getComponent(String alias) {
         return components.get(alias);
+    }
+
+    public Collection<AiComponent> getComponents() {
+        return components.values();
     }
 
     public void setEntry(String entry) {
@@ -111,5 +117,9 @@ public class AiScript implements Savable {
     public void read(JmeImporter im) throws IOException {
         InputCapsule capsule = im.getCapsule(this);
         name = capsule.readString("name", null);
+    }
+
+    public String getEntry() {
+        return entry;
     }
 }

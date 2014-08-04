@@ -1,20 +1,20 @@
 package com.ractoc.fs.components.ai;
 
-import com.jme3.asset.AssetManager;
 import com.ractoc.fs.ai.AiComponent;
-import com.ractoc.fs.ai.AiScript;
 import com.ractoc.fs.components.es.ControlledComponent;
 import com.ractoc.fs.components.es.LocationComponent;
 import com.ractoc.fs.es.ComponentTypeCriteria;
 import com.ractoc.fs.es.Entities;
 import com.ractoc.fs.es.Entity;
 import com.ractoc.fs.es.EntityResultSet;
+import com.ractoc.fs.parsers.ai.AiComponentProperty;
 import java.util.List;
 
 public class RangeTriggerComponent extends AiComponent {
 
     private EntityResultSet controlledResultSet;
     private Entity controlledEntity;
+    @AiComponentProperty(name = "range", displayName = "Range", type = Float.class, shortDescription = "Range to execute the trigger and proceed to the next Ai Component")
     private Float range;
 
     public RangeTriggerComponent(String id) {
@@ -38,9 +38,13 @@ public class RangeTriggerComponent extends AiComponent {
     }
 
     @Override
-    public void initialise(Entity entity, AssetManager assetManager, AiScript aiScript) {
-        super.initialise(entity, assetManager, aiScript);
+    public void initialiseProperties() {
         range = Float.valueOf((String) getProp("range"));
+    }
+
+    @Override
+    public void updateProperties() {
+        props.put("range", range.toString());
     }
 
     @Override

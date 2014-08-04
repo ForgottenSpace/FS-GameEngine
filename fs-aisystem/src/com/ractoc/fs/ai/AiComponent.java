@@ -32,7 +32,7 @@ public abstract class AiComponent {
     }
 
     private void checkProps() {
-        Set<String> propKeys = new HashSet<>( props.keySet());
+        Set<String> propKeys = new HashSet<>(props.keySet());
         propKeys.addAll(aiScript.getGlobalProps().keySet());
         if (!propKeys.containsAll(Arrays.asList(getMandatoryProperties()))) {
             throw new AiException("Not all mandatory properties set.");
@@ -59,11 +59,16 @@ public abstract class AiComponent {
 
     public abstract String[] getMandatoryExits();
 
-    public void initialise(Entity entity, AssetManager assetManager, AiScript aiScript) {
+    public abstract void initialiseProperties();
+
+    public abstract void updateProperties();
+
+    public final void initialise(Entity entity, AssetManager assetManager, AiScript aiScript) {
         this.entity = entity;
         this.assetManager = assetManager;
         this.aiScript = aiScript;
         checkProps();
+        initialiseProperties();
     }
 
     public void update(float tpf) {

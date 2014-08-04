@@ -6,11 +6,13 @@ import com.ractoc.fs.ai.AiScript;
 import com.ractoc.fs.components.es.LocationComponent;
 import com.ractoc.fs.es.Entities;
 import com.ractoc.fs.es.Entity;
+import com.ractoc.fs.parsers.ai.AiComponentProperty;
 
 public class TimerComponent extends AiComponent {
 
-    private float interval;
-    private float expiredTime = 0;
+    @AiComponentProperty(name = "interval", displayName = "Interval", type = Float.class, shortDescription = "Comma seperated list of Fully Qualified names for the sub script files.")
+    private Float interval;
+    private Float expiredTime = new Float(0);
 
     public TimerComponent(String id) {
         super(id);
@@ -27,9 +29,14 @@ public class TimerComponent extends AiComponent {
     }
 
     @Override
-    public void initialise(Entity entity, AssetManager assetManager, AiScript aiScript) {
+    public void initialiseProperties() {
         super.initialise(entity, assetManager, aiScript);
         interval = Float.valueOf((String) getProp("interval"));
+    }
+
+    @Override
+    public void updateProperties() {
+        props.put("interval", interval);
     }
 
     @Override
@@ -37,7 +44,7 @@ public class TimerComponent extends AiComponent {
         super.update(tpf);
         expiredTime += tpf;
         if (expiredTime >= interval) {
-            expiredTime = 0;
+            expiredTime = new Float(0);
             aiScript.setCurrentComponent((String) exits.get("time"));
         }
     }

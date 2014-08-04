@@ -1,15 +1,16 @@
 package com.ractoc.fs.components.ai;
 
-import com.jme3.asset.AssetManager;
 import com.ractoc.fs.ai.AiComponent;
 import com.ractoc.fs.ai.AiScript;
-import com.ractoc.fs.es.Entity;
+import com.ractoc.fs.parsers.ai.AiComponentProperty;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SubScriptComponent extends AiComponent {
 
     private List<AiScript> scripts = new ArrayList<>();
+    @AiComponentProperty(name = "scripts", displayName = "Su Scripts", type = String.class, shortDescription = "Comma seperated list of Fully Qualified names for the sub script files.")
+    private String scriptNames;
 
     public SubScriptComponent(String id) {
         super(id);
@@ -26,10 +27,8 @@ public class SubScriptComponent extends AiComponent {
     }
 
     @Override
-    public void initialise(Entity entity, AssetManager assetManager, AiScript aiScript) {
-        super.initialise(entity, assetManager, aiScript);
-
-        String scriptNames = (String) getProp("scripts");
+    public void initialiseProperties() {
+        scriptNames = (String) getProp("scripts");
         String[] scriptNameList = scriptNames.split(",");
         for (String scriptName : scriptNameList) {
             AiScript script = (AiScript) assetManager.loadAsset(scriptName.trim());
@@ -38,7 +37,11 @@ public class SubScriptComponent extends AiComponent {
             script.getGlobalProps().putAll(aiScript.getGlobalProps());
             scripts.add(script);
         }
+    }
 
+    @Override
+    public void updateProperties() {
+        props.put("scripts", scriptNames);
     }
 
     @Override

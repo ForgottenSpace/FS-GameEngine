@@ -10,6 +10,7 @@ import com.ractoc.fs.es.ComponentTypeCriteria;
 import com.ractoc.fs.es.Entities;
 import com.ractoc.fs.es.Entity;
 import com.ractoc.fs.es.EntityResultSet;
+import com.ractoc.fs.parsers.ai.AiComponentProperty;
 import java.util.List;
 
 public class ShootComponent extends AiComponent {
@@ -39,8 +40,11 @@ public class ShootComponent extends AiComponent {
     }
 
     @Override
-    public void initialise(Entity entity, AssetManager assetManager, AiScript aiScript) {
-        super.initialise(entity, assetManager, aiScript); //To change body of generated methods, choose Tools | Templates.
+    public void initialiseProperties() {
+    }
+
+    @Override
+    public void updateProperties() {
     }
 
     @Override

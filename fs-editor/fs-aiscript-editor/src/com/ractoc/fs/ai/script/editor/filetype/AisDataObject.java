@@ -7,6 +7,7 @@ import com.jme3.gde.core.assets.ProjectAssetManager;
 import com.ractoc.fs.ai.AiScript;
 import com.ractoc.fs.parsers.ai.AiScriptKey;
 import com.ractoc.fs.ai.script.editor.AisOpenSupport;
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,9 +21,11 @@ import org.openide.cookies.CloseCookie;
 import org.openide.cookies.OpenCookie;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.MIMEResolver;
+import org.openide.loaders.DataNode;
 import org.openide.loaders.DataObject;
 import org.openide.loaders.DataObjectExistsException;
 import org.openide.loaders.MultiFileLoader;
+import org.openide.nodes.Children;
 import org.openide.nodes.CookieSet;
 import org.openide.nodes.Node;
 import org.openide.util.NbBundle.Messages;
@@ -158,4 +161,31 @@ public class AisDataObject extends AssetDataObject {
     private boolean assetKeyHasInCorrectType() {
         return !(super.getAssetKey() instanceof AiScriptKey);
     }
+
+    @Override
+    protected Node createNodeDelegate() {
+        return new AiScriptNode(
+                this,
+                Children.create(new AisChildFactory(this), true),
+                getLookup());
+    }
+
+    public AiScript getScript() {
+        if (script == null) {
+            loadAsset();
+        }
+        return script;
+    }
+//
+//    @Override
+//    public synchronized void saveAsset() throws IOException {
+//        File outputFile = new File(fileName);
+//        saveAssetToFile(outputFile);
+//    }
+//
+//    private void saveAssetToFile(File outputFile) {
+//        AiScriptWriter writer = new AiScriptWriter();
+//        writer.write(script, outputFile);
+//        this.setModified(false);
+//    }
 }

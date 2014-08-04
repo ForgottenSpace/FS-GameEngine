@@ -1,21 +1,21 @@
 package com.ractoc.fs.components.ai;
 
-import com.jme3.asset.AssetManager;
 import com.jme3.math.Vector3f;
 import com.ractoc.fs.ai.AiComponent;
-import com.ractoc.fs.ai.AiScript;
 import com.ractoc.fs.components.es.*;
 import com.ractoc.fs.es.ComponentTypeCriteria;
 import com.ractoc.fs.es.Entities;
 import com.ractoc.fs.es.Entity;
 import com.ractoc.fs.es.EntityResultSet;
+import com.ractoc.fs.parsers.ai.AiComponentProperty;
 import java.util.List;
 
 public class ApproachComponent extends AiComponent {
 
+    @AiComponentProperty(name = "range", displayName = "Range", type = Float.class, shortDescription = "Minimum range between the AI and the player.")
+    private Float range;
     private EntityResultSet controlledResultSet;
     private Entity controlledEntity;
-    private Float range;
     private Entity shipEntity;
     private MovementComponent movementComponent;
 
@@ -40,10 +40,14 @@ public class ApproachComponent extends AiComponent {
     }
 
     @Override
-    public void initialise(Entity entity, AssetManager assetManager, AiScript aiScript) {
-        super.initialise(entity, assetManager, aiScript);
+    public void initialiseProperties() {
         range = Float.valueOf((String) getProp("range"));
         System.out.println("initialized ApproachComponent with range " + range);
+    }
+
+    @Override
+    public void updateProperties() {
+        props.put("range", range.toString());
     }
 
     @Override
