@@ -10,6 +10,7 @@ import com.ractoc.fs.es.ComponentTypeCriteria;
 import com.ractoc.fs.es.Entities;
 import com.ractoc.fs.es.Entity;
 import com.ractoc.fs.es.EntityResultSet;
+import com.ractoc.fs.parsers.ai.AiComponentExit;
 import com.ractoc.fs.parsers.ai.AiComponentProperty;
 import java.util.List;
 
@@ -18,6 +19,8 @@ public class ShootComponent extends AiComponent {
     private Entity controlledEntity;
     private Entity shipEntity;
     private EntityResultSet controlledResultSet;
+    @AiComponentExit(name = "boom", displayName = "Boom", type = String.class, shortDescription = "The player has been destroyed.")
+    private String boom;
 
     public ShootComponent(String id) {
         super(id);
@@ -41,6 +44,7 @@ public class ShootComponent extends AiComponent {
 
     @Override
     public void initialiseProperties() {
+        boom = (String) exits.get("boom");
     }
 
     @Override
@@ -61,7 +65,7 @@ public class ShootComponent extends AiComponent {
                 Entities.getInstance().removeComponentsFromEntity(shipEntity, new ShootMainComponent(0f));
             }
         } else {
-            aiScript.setCurrentComponent((String) exits.get("destroyed"));
+            aiScript.setCurrentComponent(boom);
         }
     }
 

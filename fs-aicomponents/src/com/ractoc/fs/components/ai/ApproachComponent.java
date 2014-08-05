@@ -7,6 +7,7 @@ import com.ractoc.fs.es.ComponentTypeCriteria;
 import com.ractoc.fs.es.Entities;
 import com.ractoc.fs.es.Entity;
 import com.ractoc.fs.es.EntityResultSet;
+import com.ractoc.fs.parsers.ai.AiComponentExit;
 import com.ractoc.fs.parsers.ai.AiComponentProperty;
 import java.util.List;
 
@@ -14,6 +15,8 @@ public class ApproachComponent extends AiComponent {
 
     @AiComponentProperty(name = "range", displayName = "Range", type = Float.class, shortDescription = "Minimum range between the AI and the player.")
     private Float range;
+    @AiComponentExit(name = "destroyed", displayName = "Destroyed", type = String.class, shortDescription = "The ship is destroyed.")
+    private String destroyed;
     private EntityResultSet controlledResultSet;
     private Entity controlledEntity;
     private Entity shipEntity;
@@ -42,7 +45,7 @@ public class ApproachComponent extends AiComponent {
     @Override
     public void initialiseProperties() {
         range = Float.valueOf((String) getProp("range"));
-        System.out.println("initialized ApproachComponent with range " + range);
+        destroyed = (String) exits.get("destroyed");
     }
 
     @Override
@@ -63,7 +66,7 @@ public class ApproachComponent extends AiComponent {
                 moveTowardsControlledEntity(shipLocationComponent, controlledLocationComponent);
             }
         } else {
-            aiScript.setCurrentComponent((String) exits.get("destroyed"));
+            aiScript.setCurrentComponent(destroyed);
         }
     }
 

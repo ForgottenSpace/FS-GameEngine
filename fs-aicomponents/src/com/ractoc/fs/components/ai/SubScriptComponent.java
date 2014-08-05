@@ -2,6 +2,7 @@ package com.ractoc.fs.components.ai;
 
 import com.ractoc.fs.ai.AiComponent;
 import com.ractoc.fs.ai.AiScript;
+import com.ractoc.fs.parsers.ai.AiComponentExit;
 import com.ractoc.fs.parsers.ai.AiComponentProperty;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,8 @@ public class SubScriptComponent extends AiComponent {
     private List<AiScript> scripts = new ArrayList<>();
     @AiComponentProperty(name = "scripts", displayName = "Su Scripts", type = String.class, shortDescription = "Comma seperated list of Fully Qualified names for the sub script files.")
     private String scriptNames;
+    @AiComponentExit(name = "exit", displayName = "Exit", type = String.class, shortDescription = "Called when all the seperate sub scripts have finished.")
+    private String exit;
 
     public SubScriptComponent(String id) {
         super(id);
@@ -29,6 +32,8 @@ public class SubScriptComponent extends AiComponent {
     @Override
     public void initialiseProperties() {
         scriptNames = (String) getProp("scripts");
+        exit = (String) exits.get("exit");
+
         String[] scriptNameList = scriptNames.split(",");
         for (String scriptName : scriptNameList) {
             AiScript script = (AiScript) assetManager.loadAsset(scriptName.trim());
@@ -52,7 +57,7 @@ public class SubScriptComponent extends AiComponent {
             stillRunning = !script.isFinished();
         }
         if (!stillRunning) {
-            aiScript.setCurrentComponent((String) exits.get("exit"));
+            aiScript.setCurrentComponent(exit);
         }
     }
 }

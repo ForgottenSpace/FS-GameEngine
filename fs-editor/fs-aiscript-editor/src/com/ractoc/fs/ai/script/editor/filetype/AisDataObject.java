@@ -7,6 +7,7 @@ import com.jme3.gde.core.assets.ProjectAssetManager;
 import com.ractoc.fs.ai.AiScript;
 import com.ractoc.fs.parsers.ai.AiScriptKey;
 import com.ractoc.fs.ai.script.editor.AisOpenSupport;
+import com.ractoc.fs.parsers.ai.AiScriptWriter;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -176,16 +177,16 @@ public class AisDataObject extends AssetDataObject {
         }
         return script;
     }
-//
-//    @Override
-//    public synchronized void saveAsset() throws IOException {
-//        File outputFile = new File(fileName);
-//        saveAssetToFile(outputFile);
-//    }
-//
-//    private void saveAssetToFile(File outputFile) {
-//        AiScriptWriter writer = new AiScriptWriter();
-//        writer.write(script, outputFile);
-//        this.setModified(false);
-//    }
+
+    @Override
+    public synchronized void saveAsset() throws IOException {
+        File outputFile = new File(fileName);
+        saveAssetToFile(outputFile);
+    }
+
+    private void saveAssetToFile(File outputFile) {
+        AiScriptWriter writer = new AiScriptWriter();
+        writer.write(script, outputFile);
+        this.setModified(false);
+    }
 }
