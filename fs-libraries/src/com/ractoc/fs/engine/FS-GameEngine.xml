@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE library PUBLIC "-//NetBeans//DTD Library Declaration 1.0//EN" "http://www.netbeans.org/dtds/library-declaration-1_0.dtd">
+<library version="1.0">
+    <name>FS-GameEngine</name>
+    <type>j2se</type>
+    <localizing-bundle>com.ractoc.fs.engine.Bundle</localizing-bundle>
+    <volume>
+        <type>classpath</type>
+        <resource>jar:nbinst://com.ractoc.fs.engine/libs/fs-entitycontrols.jar!/</resource>
+        <resource>jar:nbinst://com.ractoc.fs.engine/libs/fs-aisystem.jar!/</resource>
+        <resource>jar:nbinst://com.ractoc.fs.engine/libs/fs-entitycomponents.jar!/</resource>
+        <resource>jar:nbinst://com.ractoc.fs.engine/libs/fs-entitysystem.jar!/</resource>
+        <resource>jar:nbinst://com.ractoc.fs.engine/libs/fs-parsers.jar!/</resource>
+        <resource>jar:nbinst://com.ractoc.fs.engine/libs/fs-parsers.jar!/</resource>
+        <resource>jar:nbinst://com.ractoc.fs.engine/libs/fs-aicomponents.jar!/</resource>
+        <resource>jar:nbinst://com.ractoc.fs.engine/libs/javassist-3.16.1-GA.jar!/</resource>
+        <resource>jar:nbinst://com.ractoc.fs.engine/libs/scannotation-1.0.2.jar!/</resource>
+    </volume>
+    <volume>
+        <type>src</type>
+    </volume>
+    <volume>
+        <type>javadoc</type>
+    </volume>
+</library>

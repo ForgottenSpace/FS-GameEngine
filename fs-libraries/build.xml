@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- You may freely edit this file. See harness/README in the NetBeans platform -->
+<!-- for some information on what you could do (e.g. targets to override). -->
+<!-- If you delete this file and reopen the project it will be recreated. -->
+<project name="com.ractoc.fs.engine" default="netbeans" basedir=".">
+    <description>Builds, tests, and runs the project com.ractoc.fs.engine.</description>
+    <import file="nbproject/build-impl.xml"/>
+    <target name="init" depends="basic-init,files-init,build-init,-javac-init,-build-subproject"/>
+    <target name="-build-subproject">
+        <!-- fs-entitysystem -->
+        <ant dir="./fs-entitysystem" inheritall="false" inheritrefs="false" target="clean"/>
+        <ant dir="./fs-entitysystem" inheritall="false" inheritrefs="false" target="jar"/>
+        <ant dir="./fs-entitysystem" inheritall="false" inheritrefs="false" target="javadoc"/>
+        <zip basedir="./fs-entitysystem/dist/javadoc" file="release/libs/fs-entitysystem-javadoc.zip"/>
+        <zip basedir="./fs-entitysystem/src" file="release/libs/fs-entitysystem-sources.zip"/>
+        <copy file="./fs-entitysystem/dist/fs-entitysystem.jar" todir="release/libs"/>
+        <copy file="./fs-entitysystem/dist/fs-entitysystem.jar" todir="release/modules/ext"/>
+        <!-- fs-aisystem -->
+        <ant dir="./fs-aisystem" inheritall="false" inheritrefs="false" target="clean"/>
+        <ant dir="./fs-aisystem" inheritall="false" inheritrefs="false" target="jar"/>
+        <ant dir="./fs-aisystem" inheritall="false" inheritrefs="false" target="javadoc"/>
+        <zip basedir="./fs-aisystem/dist/javadoc" file="release/libs/fs-aisystem-javadoc.zip"/>
+        <zip basedir="./fs-aisystem/src" file="release/libs/fs-aisystem-sources.zip"/>
+        <copy file="./fs-aisystem/dist/fs-aisystem.jar" todir="release/libs"/>
+        <copy file="./fs-aisystem/dist/fs-aisystem.jar" todir="release/modules/ext"/>
+        <!-- fs-parsers -->
+        <ant dir="./fs-parsers" inheritall="false" inheritrefs="false" target="clean"/>
+        <ant dir="./fs-parsers" inheritall="false" inheritrefs="false" target="jar"/>
+        <ant dir="./fs-parsers" inheritall="false" inheritrefs="false" target="javadoc"/>
+        <zip basedir="./fs-parsers/dist/javadoc" file="release/libs/fs-parsers-javadoc.zip"/>
+        <zip basedir="./fs-parsers/src" file="release/libs/fs-parsers-sources.zip"/>
+        <copy file="./fs-parsers/dist/fs-parsers.jar" todir="release/libs"/>
+        <copy file="./fs-parsers/dist/fs-parsers.jar" todir="release/modules/ext"/>
+        <!-- fs-entitycomponents -->
+        <ant dir="./fs-entitycomponents" inheritall="false" inheritrefs="false" target="clean"/>
+        <ant dir="./fs-entitycomponents" inheritall="false" inheritrefs="false" target="jar"/>
+        <ant dir="./fs-entitycomponents" inheritall="false" inheritrefs="false" target="javadoc"/>
+        <zip basedir="./fs-entitycomponents/dist/javadoc" file="release/libs/fs-entitycomponents-javadoc.zip"/>
+        <zip basedir="./fs-entitycomponents/src" file="release/libs/fs-entitycomponents-sources.zip"/>
+        <copy file="./fs-entitycomponents/dist/fs-entitycomponents.jar" todir="release/libs"/>
+        <copy file="./fs-entitycomponents/dist/fs-entitycomponents.jar" todir="release/modules/ext"/>
+        <!-- fs-aicomponents -->
+        <ant dir="./fs-aicomponents" inheritall="false" inheritrefs="false" target="clean"/>
+        <ant dir="./fs-aicomponents" inheritall="false" inheritrefs="false" target="jar"/>
+        <ant dir="./fs-aicomponents" inheritall="false" inheritrefs="false" target="javadoc"/>
+        <zip basedir="./fs-aicomponents/dist/javadoc" file="release/libs/fs-aicomponents-javadoc.zip"/>
+        <zip basedir="./fs-aicomponents/src" file="release/libs/fs-aicomponents-sources.zip"/>
+        <copy file="./fs-aicomponents/dist/fs-aicomponents.jar" todir="release/libs"/>
+        <copy file="./fs-aicomponents/dist/fs-aicomponents.jar" todir="release/modules/ext"/>
+        <!-- fs-entitycontrols -->
+        <ant dir="./fs-entitycontrols" inheritall="false" inheritrefs="false" target="clean"/>
+        <ant dir="./fs-entitycontrols" inheritall="false" inheritrefs="false" target="jar"/>
+        <ant dir="./fs-entitycontrols" inheritall="false" inheritrefs="false" target="javadoc"/>
+        <zip basedir="./fs-entitycontrols/dist/javadoc" file="release/libs/fs-entitycontrols-javadoc.zip"/>
+        <zip basedir="./fs-entitycontrols/src" file="release/libs/fs-entitycontrols-sources.zip"/>
+        <copy file="./fs-entitycontrols/dist/fs-entitycontrols.jar" todir="release/libs"/>
+        <copy file="./fs-entitycontrols/dist/fs-entitycontrols.jar" todir="release/modules/ext"/>
+    </target>
+</project>

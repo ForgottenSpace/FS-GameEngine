@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+OpenIDE-Module: com.ractoc.fs.engine
+OpenIDE-Module-Implementation-Version: 0
+OpenIDE-Module-Layer: com/ractoc/fs/engine/layer.xml
+OpenIDE-Module-Localizing-Bundle: com/ractoc/fs/engine/Bundle.properties
+

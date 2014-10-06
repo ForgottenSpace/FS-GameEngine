@@ -10,8 +10,8 @@ import java.util.Set;
 
 public abstract class ComponentParser {
 
-    protected Map<String, String> properties = new HashMap<>();
-    protected final List<String> mandatoryProperties = new ArrayList<>();
+    protected Map<String, String> properties = new HashMap<String, String>();
+    protected final List<String> mandatoryProperties = new ArrayList<String>();
 
     public void setProperty(String key, String value) {
         if (mandatoryProperties.contains(key)) {

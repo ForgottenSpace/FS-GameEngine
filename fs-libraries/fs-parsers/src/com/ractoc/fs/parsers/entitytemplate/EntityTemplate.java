@@ -13,7 +13,7 @@ import java.util.List;
 public class EntityTemplate implements Savable {
 
     private String name;
-    private List<EntityComponent> components = new ArrayList<>();
+    private List<EntityComponent> components = new ArrayList<EntityComponent>();
 
     public EntityTemplate(String name) {
         this.name = name;
@@ -55,7 +55,7 @@ public class EntityTemplate implements Savable {
     }
 
     public void removeComponent(EntityComponent componentToRemove) {
-        List<EntityComponent> componentsToRemove = new ArrayList<>();
+        List<EntityComponent> componentsToRemove = new ArrayList<EntityComponent>();
         for (EntityComponent currentComponent : components) {
             if (currentComponent.getClass().getName().equals(componentToRemove.getClass().getName())) {
                 componentsToRemove.add(currentComponent);

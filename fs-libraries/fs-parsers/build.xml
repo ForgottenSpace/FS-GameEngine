@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="fs-parsers" default="default" basedir=".">
+    <description>Builds, tests, and runs the project fs-parsers.</description>
+    <import file="nbproject/build-impl.xml"/>
+    
+    <target name="-pre-jar">
+        <copydir src="META-INF/"
+                 dest="${build.dir}/META-INF"/>
+    </target>
+    
+    <target name="-post-jar">
+        <echo>Adding files to jar...</echo>
+        <jar destfile="${dist.jar}" update="true">
+            <fileset dir="${build.dir}">
+                <include name="META-INF/**"/>
+            </fileset>
+        </jar>
+    </target>
+</project>

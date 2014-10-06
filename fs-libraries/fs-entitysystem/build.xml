@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- You may freely edit this file. See commented blocks below for -->
+<!-- some examples of how to customize the build. -->
+<!-- (If you delete it and reopen the project it will be recreated.) -->
+<!-- By default, only the Clean and Build commands use this build script. -->
+<!-- Commands such as Run, Debug, and Test only use this build script if -->
+<!-- the Compile on Save feature is turned off for the project. -->
+<!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
+<!-- in the project's Project Properties dialog box.-->
+<project name="fs-entitysystem" default="default" basedir=".">
+    <description>Builds, tests, and runs the project fs-entitysystem.</description>
+    <import file="nbproject/build-impl.xml"/>
+    <!--
+    <property name="test.lib.dir" value="${basedir}/test-lib" />
+    <property name="reports.xml.dir" value="${basedir}/reports/xml" />
+    <property name="findbugs.home" value="${basedir}/../findbugs" />
+
+
+    <path id="test.classpath">
+        <fileset dir="${test.lib.dir}">
+            <include name="*.jar" />
+        </fileset>
+    </path>
+
+    <taskdef classpathref="test.classpath" resource="tasks.properties" />
+
+    <taskdef resource="checkstyletask.properties"
+             classpath="${basedir}/lib/checkstyle-5.6-all.jar"/>
+
+    <taskdef classpathref="test.classpath" name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask"
+        />
+    
+    <target name="test-report">
+        <delete file="cobertura.ser" />
+        <mkdir dir="${build.test.results.dir}" />
+
+        <checkstyle config="${basedir}/sun_checks.xml" failonviolation="false">
+            <fileset dir="${src.dir}" includes="**/*.java"/>
+            <formatter type="plain" />
+            <formatter type="plain" toFile="${build.test.results.dir}/checkstyle_errors.txt" />
+        </checkstyle>
+
+        <cobertura-instrument todir="${build.generated.dir}">
+            <ignore regex="org.apache.log4j.*" />
+            <fileset dir="${build.classes.dir}">
+                <include name="**/*.class" />
+            </fileset>
+        </cobertura-instrument>
+        <junit fork="yes" dir="${basedir}">
+            <sysproperty key="net.sourceforge.cobertura.datafile"
+                         file="${basedir}/cobertura.ser" />
+
+            <classpath>
+                <pathelement location="${build.generated.dir}"/>
+                <pathelement location="${build.classes.dir}"/>
+                <pathelement location="${build.test.classes.dir}"/>
+                <path refid="test.classpath"/>
+                <pathelement path="${javac.test.classpath}"/>
+            </classpath>
+
+            <formatter type="plain" />
+            <batchtest todir="${build.test.results.dir}" unless="testcase">
+                <fileset dir="${basedir}/${test.src.dir}">
+                    <include name="**/*Test.java" />
+                </fileset>
+            </batchtest>
+        </junit>
+
+        <cobertura-report format="html" destdir="${build.test.results.dir}/coverage" >
+            <fileset dir="${src.dir}">
+                <include name="**/*.java" />
+            </fileset>
+        </cobertura-report>
+
+        <findbugs home="${findbugs.home}"
+                  output="html"
+                  outputFile="${build.test.results.dir}/findbugs.html" >
+            <auxclasspath location="${javac.classpath}" />
+            <sourcePath path="${basedir}/src" />
+            <class location="${basedir}/build/classes" />
+        </findbugs>
+
+    </target>-->
+</project>
